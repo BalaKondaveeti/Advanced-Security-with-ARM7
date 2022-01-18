@@ -1,7 +1,7 @@
 #ifndef SIM900_H
 #define SIM900_H
 
-#include "LPC214x.h" // Include LPC2148 specifics
+#include "LPC214x.h"
 
 class SIM900 {
 public:

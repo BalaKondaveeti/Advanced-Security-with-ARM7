@@ -30,26 +30,7 @@ void setup() {
 }
 
 void loop() {
-    // Main loop to check sensor inputs and send alerts
-    if (smokeSensor.readGasConcentration() > 50.0) { // Threshold for gas concentration
-        gsm.sendSMS(alertPhoneNumber, "Alert: High gas concentration detected!");
-    }
-
-    if (soundSensor.readSoundLevel() > 75.0) { // Threshold for sound level
-        gsm.sendSMS(alertPhoneNumber, "Alert: Loud noise detected!");
-    }
-
-    if (touchSensor.isTouched()) {
-        gsm.sendSMS(alertPhoneNumber, "Alert: Unauthorized touch detected!");
-    }
-
-    float distance = ultrasonicSensor.measureDistance();
-    if (distance < 10.0) { // Threshold for distance, e.g., object too close
-        gsm.sendSMS(alertPhoneNumber, "Alert: Object detected nearby!");
-    }
-
-    // Add a delay or a more sophisticated scheduling mechanism
-    // delay(1000); // Placeholder for a delay function
+    gsm.sendSMS(alertPhoneNumber, "This thing is sending messages");
 }
 
 int main() {
