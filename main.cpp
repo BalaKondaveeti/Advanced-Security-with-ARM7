@@ -4,9 +4,12 @@
 
 // Define sensor pins
 #define SMOKE_SENSOR_PIN 1
+#define ULTRASONIC_TRIG_PIN 3
+#define ULTRASONIC_ECHO_PIN 4
 
 // Initialize sensor objects
 SmokeSensor smokeSensor(SMOKE_SENSOR_PIN);
+Ultrasonic ultrasonicSensor(ULTRASONIC_TRIG_PIN, ULTRASONIC_ECHO_PIN);
 
 // Initialize GSM module
 SIM900 gsm;
@@ -23,6 +26,11 @@ void loop() {
 
     if (smokeSensor.readGasConcentration() > 50.0) {
         gsm.sendSMS(alertPhoneNumber, "Alert: High gas concentration detected!");
+    }
+
+    float distance = ultrasonicSensor.measureDistance();
+    if (distance < 10.0) { // Threshold for distance, e.g., object too close
+        gsm.sendSMS(alertPhoneNumber, "Alert: Motion Detected!");
     }
 }
 
