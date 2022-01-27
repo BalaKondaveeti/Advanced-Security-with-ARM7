@@ -22,8 +22,6 @@ void setup() {
 }
 
 void loop() {
-    gsm.sendSMS(alertPhoneNumber, "This thing is sending messages");
-
     if (smokeSensor.readGasConcentration() > 50.0) {
         gsm.sendSMS(alertPhoneNumber, "Alert: High gas concentration detected!");
     }
@@ -31,6 +29,14 @@ void loop() {
     float distance = ultrasonicSensor.measureDistance();
     if (distance < 10.0) { // Threshold for distance, e.g., object too close
         gsm.sendSMS(alertPhoneNumber, "Alert: Motion Detected!");
+    }
+    
+    if (touchSensor.isTouched()) {
+        gsm.sendSMS(alertPhoneNumber, "Alert: Unauthorized touch detected!");
+    }
+
+      if (soundSensor.readSoundLevel() > 75.0) { // Threshold for sound level
+        gsm.sendSMS(alertPhoneNumber, "Alert: Loud noise detected!");
     }
 }
 
