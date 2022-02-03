@@ -1,37 +1,44 @@
 #include "SIM900.h"
+#include <cstring>
 
-SIM900::SIM900() {
-    init(); // Initialize the SIM900 module upon object creation
-}
-
-void SIM900::init() {
-    setupUART(); // Set up UART for SIM900 communication
-    sendCommand("AT"); // Check if the module is ready
-    sendCommand("ATE0"); // Turn off echo for cleaner communication
-}
-
-// Send SMS
-void SIM900::sendSMS(const char* number, const char* message) {
-    char cmd[30];
-
-    // Set SMS in text mode
-    sendCommand("AT+CMGF=1\r");
-    
-    // Set the recipient's phone number
-    sprintf(cmd, "AT+CMGS=\"%s\"\r", number);
-    sendCommand(cmd);
-    
-    // Send the SMS content
-    sendCommand(message);
-    sendCommand("\x1A"); // End SMS with a Ctrl-Z/EOF character
-}
-
-void SIM900::sendCommand(const char* cmd) {
-    // Assuming UART_Write is a function to write data over UART
-    UART_Write(LPC_UART1, (uint8_t*)cmd, strlen(cmd));
-}
-
+// UART initialization for SIM900
 void SIM900::setupUART() {
-    // Assuming UART_Init is a pre-defined function to initialize UART
-    UART_Init(LPC_UART1, 9600); // Initialize UART1 for SIM900, baud rate 9600
+    // Assuming UART0 is used for SIM900
+    // Configure pins for UART0 (P0.0 = TXD, P0.1 = RXD)
+    PINSEL0 |= 0x00000005; // Select UART0 function for P0.0 and P0.1
+
+    // Configure UART0
+    // Assuming a system clock of 60 MHz and desired baud rate of 9600
+    U0LCR = 0x83; // Enable DLAB
+    U0DLL = 312;  // Set divisor for 9600 baud rate (DLL = 312, DLM = 0)
+    U0DLM = 0;
+    U0LCR = 0x03; // Disable DLAB, set 8 bit char, 1 stop bit, no parity
+
+    // Enable UART0 RX interrupt
+    U0IER = 0x01;
+}
+
+// Function to send AT commands to the SIM900 module
+void SIM900::sendCommand(const char* cmd) {
+    for (unsigned int i = 0; i < std::strlen(cmd); ++i) {
+        while (!(U0LSR & 0x20)); // Wait for TX buffer to be empty
+        U0THR = cmd[i];          // Transmit character
+    }
+    while (!(U0LSR & 0x20));     // Wait for last character to be sent
+    U0THR = '\r';                // Send carriage return
+}
+
+// Constructor, initialization
+SIM900::SIM900() {
+    setupUART();
+}
+
+// Send SMS function
+void SIM900::sendSMS(const char* number, const char* message) {
+    sendCommand("AT+CMGF=1");  // Set SMS text mode
+    sendCommand("AT+CMGS=\""); // Start SMS prompt
+    sendCommand(number);       // Send phone number
+    sendCommand("\"");         // End phone number
+    sendCommand(message);      // Send message content
+    sendCommand((char)26);     // Send CTRL+Z to send SMS
 }
