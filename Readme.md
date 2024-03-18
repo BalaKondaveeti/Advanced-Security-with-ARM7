@@ -1,7 +1,7 @@
-# Multi-Sensor Integrated Security System
+# Security System using ARM7 with C++
 
 ## Project Overview
-This is my third year academic project for the Embedded systems and design course. This Multi-Sensor Integrated Security System is an advanced academic project developed as part of the final year curriculum for a Bachelor's degree in Engineering. It is designed to offer a comprehensive solution for security and monitoring, utilizing a range of sensors to detect various environmental and security-related parameters. The system integrates sound, smoke, touch, and distance sensors with an ARM LPC2148 microcontroller and a SIM900 GSM module to provide real-time alerts and enhance safety measures.
+This is my third year academic project for the Embedded systems and design course. Actually, I started this project using Assembly but later changed to C++. This Multi-Sensor Integrated Security System is an advanced academic project developed as part of the final year curriculum for a Bachelor's degree in Engineering. It is designed to offer a comprehensive solution for security and monitoring, utilizing a range of sensors to detect various environmental and security-related parameters. The system integrates sound, smoke, touch, and distance sensors with an ARM LPC2148 microcontroller and a SIM900 GSM module to provide real-time alerts and enhance safety measures.
 
 ## Open Invitation
 Please use this project as a resource, inspiration, or foundation for further development. Whether for educational purposes, personal interest, or professional exploration, we encourage you to fork, adapt, and build upon this work.
@@ -27,11 +27,9 @@ This project is open to contributions and improvements. To contribute, please fo
 3. Commit your changes with clear and descriptive commit messages.
 4. Push your changes to your fork and submit a pull request to the original repository.
 
-We appreciate your contributions and look forward to seeing how this project evolves with the community's input.
-
-## License
-This project is released under an open-source license, making it freely available for academic, personal, and commercial use. Please refer to the LICENSE file for more details.
+I appreciate your contributions and look forward to seeing how this project evolves with the community's input.
 
 ## Acknowledgments
-We would like to express our gratitude to our educators, peers, and the open-source community for their support and inspiration throughout the development of this project.
+I would like to express our gratitude to our educators, peers, and the open-source community for their support and inspiration throughout the development of this project.
 
+I would love to connect: kondaveetibala24689@gmail.com
